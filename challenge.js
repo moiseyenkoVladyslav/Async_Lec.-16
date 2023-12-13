@@ -26,9 +26,8 @@ const whereAmI = function (lat, lng) {
   // const request2 = fetch(`https://restcountries.com/v2/name/portugal`);
   // console.log(request, request2);
 
-
-   
-  request.then(response => {
+  request
+    .then(response => {
       console.log(response);
       if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
       return response.json();
@@ -37,21 +36,19 @@ const whereAmI = function (lat, lng) {
       console.log(data);
       console.log(`You are in ${data.city}, ${data.country}.`);
       console.log(data.country);
-      const requestApiGeo2 = fetch(`https://restcountries.com/v2/name/${data.country}`);
+      const requestApiGeo2 = fetch(
+        `https://restcountries.com/v2/name/${data.country}`
+      );
       console.log(requestApiGeo2);
       return requestApiGeo2;
-    }).then(
-      dataCountry=> {
-      
-       return dataCountry.json();
-      }
-    ).then(
-      dataCountryRender=>{
-        console.log(dataCountryRender[0]);
-        renderCountry(dataCountryRender[0]);
-
-      }
-    )
+    })
+    .then(dataCountry => {
+      return dataCountry.json();
+    })
+    .then(dataCountryRender => {
+      console.log(dataCountryRender[0]);
+      renderCountry(dataCountryRender[0]);
+    })
     .catch(err => {
       console.log(`${err} 🔥🔥🔥`);
       renderError(`Something went wrong! ${err.message}`);
@@ -59,11 +56,11 @@ const whereAmI = function (lat, lng) {
     .finally(() => {
       countriesContainer.style.opacity = 1;
     });
-    
-    // .catch(error => {
-    //   console.log(`${error}`);
-    // })
- 
+
+  // .catch(error => {
+  //   console.log(`${error}`);
+  // })
+
   // request.then(response=>{
   //   if (response.status != 200) {
   //     throw new Error(`Somethng goes wrong`);
@@ -71,11 +68,16 @@ const whereAmI = function (lat, lng) {
   //   return response.json();
   // }).then(data =>{
   //    console.log(data.country);
-    
+
   //  })
   //  console.log(countryWhereIAm);
   //   // const requestGeoLocApi ;
   //   return countryWhereIAm;
 };
+//Test Data :
+//§ Coordinates 1: 52.508, 13.381
+//Coordinates 2: 19.037, 72.873
+//Coordinates 3: -33.933, 18.474
 whereAmI(52.508, 13.381);
-
+whereAmI(19.037, 72.873);
+whereAmI(-33.933, 18.474);
