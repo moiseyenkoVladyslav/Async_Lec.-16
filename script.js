@@ -209,7 +209,7 @@ const getCountryData = function (country) {
       renderCountry(data[0]);
 
       const neighbour = data[0].borders?.[0];
-      console.log(neighbour);
+      // console.log(neighbour);
 
       if (!neighbour) throw new Error(`No neighbour found!`);
 
@@ -238,12 +238,67 @@ btn.addEventListener(`click`, function () {
 });
 
 getCountryData(`australia`);
+/*
+//Testing Loops in JS
 
 console.log(`Test start`);
 setTimeout(() => console.log(`0 sec timer`), 0);
 Promise.resolve(`Resolved promise 1`).then(res => console.log(res));
 Promise.resolve(`Resolved promise 2`).then(res => {
-  for (let i = 0; i < 10000000000; i++) {}
+  for (let i = 0; i < 10000000; i++) {}
   console.log(res);
 });
 console.log(`Test End`);
+*/
+console.log(`Building Promise`);
+
+///////////////
+//Build Promise
+///////////////
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log(`Lottery draw is happening!`);
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve(`You Win :)`);
+    } else {
+      reject(new Error(`You lost :(`));
+    }
+  }, 2000);
+});
+//Promise feed
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+
+//Encapsulating Async process - Promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+//Sequence Behaviour without Callback-Hell
+wait(1)
+  .then(() => {
+    console.log(`I waited for 1 sec`);
+    return wait(1);
+  })
+  .then(() => {
+    console.log(`I waited for 2 sec`);
+    return wait(1);
+  })
+  .then(() => console.log(`I waited for 3 sec`));
+
+//Reference Callback-Hell
+/*
+setTimeout(() => {
+  console.log(`1sec parsed`);
+  setTimeout(() => {
+    console.log(`2sec parsed`);
+    setTimeout(() => {
+      console.log(`3sec parsed`);
+    }, 1000);
+  }, 1000);
+}, 1000);
+  */
+
+//Static Method and Resolving emmidiatly
+Promise.resolve(`abc`).then(x => console.log(x));
+Promise.reject(new Error(`abc`)).catch(x => console.error(x));
