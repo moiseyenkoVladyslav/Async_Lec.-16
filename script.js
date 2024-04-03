@@ -275,16 +275,16 @@ const wait = function (seconds) {
   });
 };
 //Sequence Behaviour without Callback-Hell
-wait(1)
-  .then(() => {
-    console.log(`I waited for 1 sec`);
-    return wait(1);
-  })
-  .then(() => {
-    console.log(`I waited for 2 sec`);
-    return wait(1);
-  })
-  .then(() => console.log(`I waited for 3 sec`));
+// wait(1)
+//   .then(() => {
+//     console.log(`I waited for 1 sec`);
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log(`I waited for 2 sec`);
+//     return wait(1);
+//   })
+//   .then(() => console.log(`I waited for 3 sec`));
 
 //Reference Callback-Hell
 /*
@@ -302,3 +302,78 @@ setTimeout(() => {
 //Static Method and Resolving emmidiatly
 Promise.resolve(`abc`).then(x => console.log(x));
 Promise.reject(new Error(`abc`)).catch(x => console.error(x));
+
+console.log('Getting position');
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+getPosition().then(pos => console.log(pos));
+
+const whereAmI = function (lat, lng) {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    })
+
+    // const request = fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+
+    // const request2 = fetch(`https://restcountries.com/v2/name/portugal`);
+    // console.log(request, request2);
+
+    // request
+    .then(response => {
+      console.log(response);
+      if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      console.log(`You are in ${data.city}, ${data.country}.`);
+      console.log(data.country);
+      const requestApiGeo2 = fetch(
+        `https://restcountries.com/v2/name/${data.country}`
+      );
+      console.log(requestApiGeo2);
+      return requestApiGeo2;
+    })
+    .then(dataCountry => {
+      return dataCountry.json();
+    })
+    .then(dataCountryRender => {
+      console.log(dataCountryRender[0]);
+      renderCountry(dataCountryRender[0]);
+    })
+    .catch(err => {
+      console.log(`${err} 🔥🔥🔥`);
+      renderError(`Something went wrong! ${err.message}`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+
+  // .catch(error => {
+  //   console.log(`${error}`);
+  // })
+
+  // request.then(response=>{
+  //   if (response.status != 200) {
+  //     throw new Error(`Somethng goes wrong`);
+  //   }
+  //   return response.json();
+  // }).then(data =>{
+  //    console.log(data.country);
+
+  //  })
+  //  console.log(countryWhereIAm);
+  //   // const requestGeoLocApi ;
+  //   return countryWhereIAm;
+};
+btn.addEventListener('click', whereAmI);
