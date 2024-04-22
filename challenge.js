@@ -81,3 +81,35 @@ const whereAmI = function (lat, lng) {
 whereAmI(52.508, 13.381);
 whereAmI(19.037, 72.873);
 whereAmI(-33.933, 18.474);
+
+//Challenge 2
+// const createImage = new Promise(function (resolve, reject) {
+//   const image = document.createElement(`img`);
+//   image.src = 'img/img-1.jpg';
+//   image.addEventListener('load', () => {
+//     image.classList.add('images');
+//     document.body.appendChild(image);
+//   });
+//   resolve(image);
+// });
+
+// createImage.then(res => console.log(res));
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const image = document.createElement(`img`);
+    image.src = imgPath;
+
+    image.addEventListener('load', () => {
+      image.classList.add('images');
+      document.body.appendChild(image);
+      resolve(image);
+    });
+
+    image.addEventListener(`error`, function () {
+      reject(new Error('Image not found'));
+    });
+  });
+};
+createImage('img/img-1.jpg').then(img => {
+  console.log('Image 1 loaded');
+});

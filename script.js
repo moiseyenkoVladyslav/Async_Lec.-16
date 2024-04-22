@@ -139,8 +139,8 @@ setTimeout(() => {
 // request.open(`GET`, `https://restcountries.com/v2/name/${country}`);
 // request.send();
 
-const request = fetch(`https://restcountries.com/v2/name/portugal`);
-console.log(request);
+// const request = fetch(`https://restcountries.com/v2/name/portugal`);
+// console.log(request);
 
 /*
 const getCountryData = function (country) {
@@ -233,11 +233,11 @@ const getCountryData = function (country) {
 // getCountryData(`portugal`);
 // getCountryData(`germany`);
 
-btn.addEventListener(`click`, function () {
-  getCountryData(`portugal`);
-});
+// btn.addEventListener(`click`, function () {
+//   getCountryData(`portugal`);
+// });
 
-getCountryData(`australia`);
+// getCountryData(`australia`);
 /*
 //Testing Loops in JS
 
@@ -299,9 +299,9 @@ setTimeout(() => {
 }, 1000);
   */
 
-//Static Method and Resolving emmidiatly
-Promise.resolve(`abc`).then(x => console.log(x));
-Promise.reject(new Error(`abc`)).catch(x => console.error(x));
+//Static Method and Resolving emmidiatly - Easy way to create Resolved/Rejected Promise
+// Promise.resolve(`abc`).then(x => console.log(x));
+// Promise.reject(new Error(`abc`)).catch(x => console.error(x));
 
 console.log('Getting position');
 
